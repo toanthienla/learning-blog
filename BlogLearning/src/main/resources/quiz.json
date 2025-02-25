@@ -1,0 +1,48 @@
+{
+    "quiz_id": 1,
+    "title": "Introduction to Python",
+    "questions": [
+        {
+            "id": 1,
+            "title": "What is Python?",
+            "options": [
+                {
+                    "id": "A",
+                    "text": "A programming language",
+                    "correct": true,
+                    "feedback": "Correct! Python is a high-level programming language."
+                },
+                {
+                    "id": "B",
+                    "text": "A snake",
+                    "correct": false,
+                    "feedback": "While Python is named after the snake, it's actually a programming language."
+                }
+            ],
+            "points": 10
+        },
+        {
+            "id": 1,
+            "title": "What is the output of this expression: $f(x) = \\int_0^\\infty x^3e^{x-2}dx\\,$",
+            "options": [
+                {
+                    "id": "A",
+                    "text": "20",
+                    "correct": true,
+                    "feedback": "Don't know"
+                },
+                {
+                    "id": "B",
+                    "text": "15",
+                    "correct": false,
+                    "feedback": "wrong you dumbass"
+                }
+            ],
+            "points": 20
+        }
+    ],
+    "settings": {
+        "time_limit": 3600,
+        "passing_score": 70
+    }
+}
