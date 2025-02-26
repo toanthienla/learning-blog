@@ -31,7 +31,7 @@ public class UserDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             int maxID = 0;
             if (rs.next()) {
-                System.out.println(rs.getInt("maxID"));
+                System.out.println("Current max ID: " + rs.getInt("maxID"));
                 maxID = rs.getInt("maxID") + 1;
             }
 
