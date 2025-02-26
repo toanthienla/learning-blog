@@ -6,6 +6,7 @@ package util;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -41,6 +42,13 @@ public class DBContext {
                     + "encrypt=true;trustServerCertificate=true;", databaseName, username, password);
             conn = DriverManager.getConnection(dbURL);
             System.out.println("Connect database successfully!");
+            DatabaseMetaData md = conn.getMetaData();
+            System.out.println("Driver name: " + md.getDriverName());
+            System.out.println("Driver version: " + md.getDriverVersion());
+            System.out.println("Product name: " + md.getDatabaseProductName());
+            System.out.println("Product version: " + md.getDatabaseProductVersion());
+            System.out.println("----");
+            
         } catch (ClassNotFoundException e) {
             System.out.println("Cannot found class for SQL Server Driver");
             System.out.println(e.getMessage());
@@ -49,7 +57,7 @@ public class DBContext {
             System.out.println(e.getMessage());
         }
     }
-    
+
     public static void main(String[] args) {
         new DBContext();
     }
