@@ -64,10 +64,9 @@ public class MailService {
      * @param to - The list of receiver's email addresses
      * @param subject - The email subject
      * @param path - The path to the HTML email file
-     * @throws Exception - throws AddressException, if the address is not valid
-     * email address
+     * @throws jakarta.mail.internet.AddressException
      */
-    public void send(List<String> to, String subject, String path) throws Exception {
+    public void send(List<String> to, String subject, String path) throws AddressException, MessagingException {
         //Parse the list of String to array of InternetAddress
         InternetAddress[] addresses = to.stream().map(email -> {
             try {
