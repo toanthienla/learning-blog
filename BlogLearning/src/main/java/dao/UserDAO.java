@@ -72,10 +72,10 @@ public class UserDAO extends DBContext {
         throw new SQLException("Failed to create new account");
     }
 
-    public User login(String email, String password) throws SQLException, IllegalArgumentException {
-        String sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
+    public User login(String username, String password) throws SQLException, IllegalArgumentException {
+        String sql = "SELECT * FROM Users WHERE UserName = ? AND Password = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, email);
+        ps.setString(1, username);
         ps.setString(2, Util.hash(password));
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
@@ -89,7 +89,7 @@ public class UserDAO extends DBContext {
             );
         }
 
-        throw new IllegalArgumentException("Email or password incorrect!");
+        throw new IllegalArgumentException("Usename or password incorrect!");
     }
 
     public User updateUserPasswordByUsername(String username, String oldPassword, String newPassword) throws SQLException {

@@ -89,9 +89,9 @@
         <div class="container"> 
             <h1>SIGN IN</h1>
             <form action="sign-in" method="POST">
-                <label class="form-label">Email</label>
-                <input type="email" id="email" name="email" class="form-control" 
-                       placeholder="Enter email" required>                
+                <label class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" 
+                       placeholder="Enter username" required>                
                 
                 <label class="form-label">Password</label>
                 <input type="password" id="password" name="password" class="form-control" 

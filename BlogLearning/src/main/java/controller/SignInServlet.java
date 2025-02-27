@@ -34,7 +34,7 @@ public class SignInServlet extends HttpServlet {
         HttpSession session = request.getSession();
         try {
             //Get request parameter
-            String email = request.getParameter("email");
+            String email = request.getParameter("username");
             String password = request.getParameter("password");
             
             //Login
