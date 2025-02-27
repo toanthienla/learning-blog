@@ -72,7 +72,7 @@ public class UserDAO extends DBContext {
         throw new SQLException("Failed to create new account");
     }
 
-    public User login(String email, String password) throws SQLException, IllegalArgumentException  {
+    public User login(String email, String password) throws SQLException, IllegalArgumentException {
         String sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, email);
@@ -88,8 +88,58 @@ public class UserDAO extends DBContext {
                     rs.getInt("Point")
             );
         }
-        
+
         throw new IllegalArgumentException("Email or password incorrect!");
+    }
+
+    public User updateUserPasswordByUsername(String username, String oldPassword, String newPassword) throws SQLException {
+        // Hash the passwords
+        String hashedOldPassword = Util.hash(oldPassword);
+        String hashedNewPassword = Util.hash(newPassword);
+
+        // Check if the old password matches the stored password
+        String sql = "SELECT * FROM Users WHERE UserName = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, username);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            String storedPassword = rs.getString("Password");
+            if (!hashedOldPassword.equals(storedPassword)) {
+                throw new IllegalArgumentException("Incorrect old password!");
+            }
+        } else {
+            throw new IllegalArgumentException("User not found!");
+        }
+
+        // Update the password
+        sql = "UPDATE Users SET Password = ? WHERE UserName = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, hashedNewPassword);
+        ps.setString(2, username);
+
+        int rowsAffected = ps.executeUpdate();
+
+        if (rowsAffected > 0) {
+            // Retrieve the updated user object
+            sql = "SELECT * FROM Users WHERE UserName = ?"; // Assign the sql query to a variable
+            ps = conn.prepareStatement(sql); // Reuse the PreparedStatement
+            ps.setString(1, username); // Set the username parameter
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("UserId"),
+                        rs.getString("UserName"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getInt("role") == 0 ? Role.PUBLISHER : Role.READER,
+                        rs.getInt("Point")
+                );
+            }
+        }
+
+        return null; // Return null if update fails or user retrieval fails
     }
 
     public static void main(String[] args) {

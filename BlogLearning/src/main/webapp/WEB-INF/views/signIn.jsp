@@ -97,7 +97,7 @@
                 <input type="password" id="password" name="password" class="form-control" 
                        placeholder="Enter your password" required>
                 
-                <input type="submit" value="Sign up" class="btn btn-primary" id="submit">
+                <input type="submit" value="Sign in" class="btn btn-primary" id="submit">
                 <p>Don't have an account yet? <a href="sign-up">Sign up</a> instead</p>
             </form>
         </div>
