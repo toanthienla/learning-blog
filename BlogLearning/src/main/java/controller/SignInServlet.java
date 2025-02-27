@@ -25,7 +25,7 @@ public class SignInServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("signIn.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/signIn.jsp").forward(request, response);
     } 
 
     @Override
@@ -44,13 +44,13 @@ public class SignInServlet extends HttpServlet {
             //Add attribute to session
             session.setAttribute("account", user);
             //request.getRequestDispatcher("main").forward(request, response);
-            response.sendRedirect("main");
+            response.sendRedirect("dashboard");
         } catch (SQLException e) {
             session.setAttribute("errMsg", "Internal server error!");
-            response.sendRedirect("signIn.jsp");
+            response.sendRedirect("sign-in");
         } catch (IllegalArgumentException e) {
             session.setAttribute("errMsg", e.getMessage());
-            response.sendRedirect("signIn.jsp");
+            response.sendRedirect("sign-in");
         }
     }
 

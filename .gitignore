@@ -26,3 +26,7 @@ replay_pid*
 
 # ignore env file
 BlogLearning/src/main/resources/.env
+
+# ignore log files
+BlogLearning/logs
+BlogLearning/logs/*.log
