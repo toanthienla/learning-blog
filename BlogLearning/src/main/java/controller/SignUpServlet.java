@@ -34,7 +34,7 @@ public class SignUpServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("signUp.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/signUp.jsp").forward(request, response);
     }
 
     /**
@@ -63,22 +63,22 @@ public class SignUpServlet extends HttpServlet {
             //session.setAttribute("signUpSuccess", true);
             session.setAttribute("account", user);
             //request.getRequestDispatcher("main").forward(request, response);
-            response.sendRedirect("main");
+            response.sendRedirect("dashboard");
         } catch (IllegalArgumentException e) {
             //request.setAttribute("errMsg", e.getMessage());
             //request.getRequestDispatcher("signUp.jsp").forward(request, response);
             session.setAttribute("errMsg", e.getMessage());
-            response.sendRedirect("signUp.jsp");
+            response.sendRedirect("sign-up");
         } catch (SQLException e) {
             //request.setAttribute("errMsg", "Internal server error!");
             //request.getRequestDispatcher("signUp.jsp").forward(request, response);
             session.setAttribute("errMsg", "Internal server error!");
-            response.sendRedirect("signUp.jsp");
+            response.sendRedirect("sign-up");
         } catch (MessagingException e) {
             //request.setAttribute("errMsg", "Invalid email address!");
             //request.getRequestDispatcher("signUp.jsp").forward(request, response);
             session.setAttribute("errMsg", "Invalid email address!");
-            response.sendRedirect("signUp.jsp");
+            response.sendRedirect("sign-up");
         }
     }
 
