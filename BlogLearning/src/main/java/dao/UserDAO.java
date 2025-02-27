@@ -78,7 +78,7 @@ public class UserDAO extends DBContext {
         throw new SQLException("Failed to create new account");
     }
 
-    public User login(String email, String password) throws SQLException  {
+    public User login(String email, String password) throws SQLException, IllegalArgumentException  {
         String sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, email);
@@ -94,7 +94,8 @@ public class UserDAO extends DBContext {
                     rs.getInt("Point")
             );
         }
-        return null;
+        
+        throw new IllegalArgumentException("Email or password incorrect!");
     }
 
     public static void main(String[] args) {
