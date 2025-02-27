@@ -10,8 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Sign up</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-              rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
         <style>
             body {
@@ -92,28 +92,30 @@
                 <label class="form-label">Username</label>
                 <input type="text" id="username" name="username" class="form-control" 
                        placeholder="Enter username" required>
-                
+
                 <label class="form-label">Email</label>
                 <input type="email" id="email" name="email" class="form-control" 
                        placeholder="Enter email" required>                
-                
+
                 <label class="form-label">Password</label>
                 <input type="password" id="password" name="password" class="form-control" 
                        placeholder="Enter your password" required>
-                
+
                 <label class="form-label">Role</label>
                 <select class="form-select" name="role" id="role" required>
                     <option value="" selected disabled>Select role</option>
                     <option value="publisher">Publisher</option>
                     <option value="reader">Reader</option>
                 </select>
-                
+
                 <input type="submit" value="Sign up" class="btn btn-primary" id="submit">
                 <p>Already have an account? <a href="sign-in">Sign in</a> instead</p>
             </form>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+                crossorigin="anonymous"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 let errMsg = "<%= errMsg != null ? errMsg : ""%>";

@@ -49,7 +49,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <%= msg %>
+                        <%= msg%>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -66,7 +66,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <%= errMsg %>
+                        <%= errMsg%>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -149,16 +149,16 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-        crossorigin="anonymous"></script>
+                crossorigin="anonymous"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                let msg = "<%= msg != null ? msg : "" %>";
+                let msg = "<%= msg != null ? msg : ""%>";
                 if (msg.trim() !== "") {
                     let successPopup = new bootstrap.Modal(document.getElementById("settings-success"));
                     successPopup.show();
                 }
 
-                let errMsg = "<%= errMsg != null ? errMsg : "" %>";
+                let errMsg = "<%= errMsg != null ? errMsg : ""%>";
                 if (errMsg.trim() !== "") {
                     let errorPopup = new bootstrap.Modal(document.getElementById("settings-failed"));
                     errorPopup.show();
