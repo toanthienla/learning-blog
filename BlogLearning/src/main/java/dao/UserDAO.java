@@ -27,18 +27,12 @@ public class UserDAO extends DBContext {
         email = email.toLowerCase();
 
         //Check if the current email or username has been registered
-        String sql = "SELECT Email, UserName FROM Users WHERE Email = ? AND UserName = ?";
+        String sql = "SELECT UserName FROM Users WHERE UserName = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, email);
-        ps.setString(2, username);
+        ps.setString(1, username);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            String dbEmail = rs.getString("Email");
             String dbUsername = rs.getString("UserName");
-            if (dbEmail != null && !dbEmail.isEmpty()) {
-                throw new IllegalArgumentException("This email has been registered!");
-            }
-
             if (dbUsername != null && !dbUsername.isEmpty()) {
                 throw new IllegalArgumentException("This username has been used!");
             }
@@ -100,6 +94,6 @@ public class UserDAO extends DBContext {
 
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
-        //dao.createAccount("abc", "abc@gmail.com", "123", Role.READER); //Use real email to receive the welcome mail
+        //dao.createAccount("abc", "dangnh.ce190707@gmail.com", "123", Role.READER); //Use real email to receive the welcome mail
     }
 }
