@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ * Class for connect to database.
  *
  * @author Asus
  */
@@ -41,6 +42,8 @@ public class DBContext {
                     + "password=%s;"
                     + "encrypt=true;trustServerCertificate=true;", databaseName, username, password);
             conn = DriverManager.getConnection(dbURL);
+            
+            //Log data for checking
             System.out.println("Connect database successfully!");
             DatabaseMetaData md = conn.getMetaData();
             System.out.println("Driver name: " + md.getDriverName());
@@ -48,13 +51,15 @@ public class DBContext {
             System.out.println("Product name: " + md.getDatabaseProductName());
             System.out.println("Product version: " + md.getDatabaseProductVersion());
             System.out.println("----");
-            
+
         } catch (ClassNotFoundException e) {
             System.out.println("Cannot found class for SQL Server Driver");
             System.out.println(e.getMessage());
+            Util.logError(String.format("Cannot found class for SQL Server Driver\n%s\n---", e.getMessage()));
         } catch (SQLException e) {
             System.out.println("Fail to connect to SQL server");
             System.out.println(e.getMessage());
+            Util.logError(String.format("Fail to connect to SQL server\n%s\n---", e.getMessage()));
         }
     }
 
