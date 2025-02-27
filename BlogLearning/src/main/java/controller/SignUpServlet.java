@@ -60,7 +60,7 @@ public class SignUpServlet extends HttpServlet {
             User user = dao.createAccount(username, email, password, role); //This will throws Exceptions
 
             //Set account to new user created and sign up success to true
-            session.setAttribute("signUpSuccess", true);
+            //session.setAttribute("signUpSuccess", true);
             session.setAttribute("account", user);
             //request.getRequestDispatcher("main").forward(request, response);
             response.sendRedirect("main");
