@@ -82,6 +82,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/BlogLearning">Home</a>
                         </li>
+                         <li class="nav-item">
+                            <a class="nav-link" href="course">Courses</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="dashboard">Dashboard</a>
                         </li>

@@ -44,7 +44,7 @@ public class SignInServlet extends HttpServlet {
             //Add attribute to session
             session.setAttribute("account", user);
             //request.getRequestDispatcher("main").forward(request, response);
-            response.sendRedirect("dashboard");
+            response.sendRedirect("/BlogLearning");
         } catch (SQLException e) {
             session.setAttribute("errMsg", "Internal server error!");
             response.sendRedirect("sign-in");

@@ -63,7 +63,7 @@ public class SignUpServlet extends HttpServlet {
             //session.setAttribute("signUpSuccess", true);
             session.setAttribute("account", user);
             //request.getRequestDispatcher("main").forward(request, response);
-            response.sendRedirect("dashboard");
+            response.sendRedirect("/BlogLearning");
         } catch (IllegalArgumentException e) {
             //request.setAttribute("errMsg", e.getMessage());
             //request.getRequestDispatcher("signUp.jsp").forward(request, response);
