@@ -1,21 +1,15 @@
-<%-- 
-    Document   : settings
-    Created on : Feb 26, 2025, 9:23:09 PM
-    Author     : XPS
---%>
-<%@page import="model.Course"%>
 <%@page import="java.util.List"%>
-<%@page import="model.Role"%>
+<%@page import="model.Module"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
-        <title>Courses Page</title>
+        <title>Modules Page</title>
         <style>
             .navbar-nav {
                 margin: auto;
@@ -35,6 +29,17 @@
             .card:hover {
                 transform: translateY(-5px); /* Slightly lift the card on hover */
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+            }
+            .list-group-item:hover {
+                background-color: #f8f9fa; /* Or any other color you prefer */
+            }
+            .fa-square-caret-left {
+                color: #7f8c8d;
+                transition: color 0.3s ease; /* Add transition property */
+            }
+
+            .fa-square-caret-left:hover {
+                color: #2c3e50;
             }
         </style>
     </head>
@@ -73,35 +78,29 @@
         </header>
 
         <main>
-            <h1 class="px-5 mt-2">Courses</h1>
+            <h2 class="px-5 mt-2">
+                <a href="javascript:history.back()" style="text-decoration: none; margin-right: 10px">
+                    <i class="fa-regular fa-square-caret-left"></i>
+                </a>
+                <%= request.getAttribute("courseName")%>
+            </h2>
 
             <div class="container mt-5">
-                <div class="row">
+                <div class="list-group list-group-numbered">
                     <%
-                        List<Course> courses = (List<Course>) request.getAttribute("courses");
-                        if (courses != null) {
-                            for (Course course : courses) {
+                        // Assuming you have a List<Module> named 'modules' available in the request
+                        List<Module> modules = (List<Module>) request.getAttribute("modules");
+                        if (modules != null && !modules.isEmpty()) {
+                            for (Module module : modules) {
                     %>
-                    <div class="col-md-4 mb-4"> 
-                        <div class="card" onclick="location.href = 'modules?courseId=<%= course.getCourseId()%>'"> 
-                            <div class="card-body">
-                                <h5 class="card-title"><%= course.getCourseName()%></h5>
-                                <p class="card-text">
-                                    <strong>Course ID:</strong> <%= course.getCourseId()%><br>
-                                    <strong>Public Date:</strong> <%= course.getPublicDate()%><br>
-                                    <strong>Last Update:</strong> <%= course.getLastUpdate()%><br>
-                                    <strong>Author ID:</strong> <%= course.getAuthorId()%>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <a href="materials?moduleId=<%= module.getModuleId()%>" class="list-group-item list-group-item-action">
+                        <%= module.getModuleName()%>
+                    </a>
                     <%
                         }
                     } else {
                     %>
-                    <div class="col-12">
-                        <p>No courses found.</p>
-                    </div>
+                    <div class="list-group-item">No modules found.</div>
                     <%
                         }
                     %>

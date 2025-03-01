@@ -32,4 +32,23 @@ public class CoursesDAO extends DBContext {
         return courses;
     }
 
+    public Course findById(int courseId) throws SQLException {
+        String sql = "SELECT * FROM Courses WHERE CourseId = ?";
+        try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, courseId);
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    Course course = new Course();
+                    course.setCourseId(resultSet.getInt("CourseId"));
+                    course.setCourseName(resultSet.getString("CourseName"));
+                    course.setPublicDate(resultSet.getDate("PublicDate"));
+                    course.setLastUpdate(resultSet.getDate("LastUpdate"));
+                    course.setAuthorId(resultSet.getInt("AuthorId"));
+                    return course;
+                }
+            }
+        }
+        return null; // Course not found
+    }
+
 }
