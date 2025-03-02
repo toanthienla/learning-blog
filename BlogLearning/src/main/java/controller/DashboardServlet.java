@@ -5,6 +5,8 @@
 
 package controller;
 
+import dao.CoursesDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +15,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Course;
 import model.User;
 
 /**
@@ -32,8 +36,23 @@ public class DashboardServlet extends HttpServlet {
             return;
         }
         
+        UserDAO userDao = new UserDAO();
+        int rank = userDao.getUserRank(user.getId(), user.getRole());
+        request.setAttribute("rank", rank);
+        List<User> top3 = userDao.getTopThreeUser(user.getRole());
+        request.setAttribute("top3", top3); 
+        
+        CoursesDAO courseDao = new CoursesDAO();
+        List<Course> ownCourses = courseDao.getOwnCourse(user.getId());
+        request.setAttribute("ownCourses", ownCourses);
+        
+        request.setAttribute("id", user.getId());
         request.setAttribute("role", user.getRole());
         request.setAttribute("username", user.getUsername());
+        request.setAttribute("point", user.getPoint());
+        
+        
+        
         request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
     } 
 

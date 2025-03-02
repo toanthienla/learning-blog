@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Course; // Assuming you have a Course model class
 import util.DBContext;
 
@@ -51,4 +53,26 @@ public class CoursesDAO extends DBContext {
         return null; // Course not found
     }
 
+    public List<Course> getOwnCourse(int userId) {
+        String sql = "SELECT * FROM Courses Where AuthorId = ?";
+        List<Course> courses = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Course course = new Course();
+                course.setCourseId(rs.getInt("CourseId"));
+                course.setCourseName(rs.getString("CourseName"));
+                course.setPublicDate(rs.getDate("PublicDate"));
+                course.setLastUpdate(rs.getDate("LastUpdate"));
+                course.setAuthorId(rs.getInt("AuthorId"));
+                courses.add(course);
+            }
+            return courses;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
 }

@@ -142,8 +142,57 @@ public class UserDAO extends DBContext {
         return null; // Return null if update fails or user retrieval fails
     }
 
+    public int getUserRank(int userId, Role role) {
+        String sql = "SELECT COUNT(*) AS [Top] FROM Users WHERE Point >= (SELECT Point FROM Users WHERE UserId = ?) AND Role = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setInt(2, role == Role.PUBLISHER ? 0 : 1);
+            ResultSet rs = ps.executeQuery();
+            int top = 0;
+            if (rs.next()) {
+                top = rs.getInt("Top");
+            }
+            return top;
+        } catch (Exception e) {
+            e.getMessage();
+            return 0;
+        }
+
+    }
+
+    public List<User> getTopThreeUser(Role role) {
+        List<User> top3User = new ArrayList<>();
+        String sql = "SELECT TOP 3 * FROM Users Where Role = ? ORDER BY Point DESC";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, role == Role.PUBLISHER ? 0 : 1);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                top3User.add(new User(
+                        rs.getInt("UserId"),
+                        rs.getString("UserName"),
+                        rs.getString("Email"),
+                        rs.getString("Password"),
+                        rs.getInt("role") == 0 ? Role.PUBLISHER : Role.READER,
+                        rs.getInt("Point")));
+            }
+            return top3User;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+
+    }
+
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
+        try {
+            System.out.println(dao.getUserRank(2, Role.READER));
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
         //dao.createAccount("abc", "dangnh.ce190707@gmail.com", "123", Role.READER); //Use real email to receive the welcome mail
     }
 }
