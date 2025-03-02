@@ -1,6 +1,7 @@
+<%@page import="model.Material"%>
 <%@page import="java.util.List"%>
-<%@page import="model.Module"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,7 +10,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
-        <title>Modules Page</title>
+        <title>Materials Page</title>
         <style>
             .navbar-nav {
                 margin: auto;
@@ -78,33 +79,64 @@
         </header>
 
         <main>
-            <h2 class="px-5 mt-2">
-                <a href="courses" style="text-decoration: none; margin-right: 10px">
-                    <i class="fa-regular fa-square-caret-left"></i>
-                </a>
-                <%= request.getAttribute("courseName")%>
-            </h2>
-
-            <div class="container mt-4">
-                <h4 class="mb-3" style="color: #2c3e50;">Modules list</h3>
-                <div class="list-group list-group-numbered list-group-flush">
-                    <%
-                        // Assuming you have a List<Module> named 'modules' available in the request
-                        List<Module> modules = (List<Module>) request.getAttribute("modules");
-                        if (modules != null && !modules.isEmpty()) {
-                            for (Module module : modules) {
-                    %>
-                    <a href="materials?moduleId=<%= module.getModuleId()%>&courseId=<%= request.getAttribute("courseId") %>" class="list-group-item list-group-item-action">
-                        <%= module.getModuleName()%>
+            <div class="px-5">
+                <h2 class="mt-2">
+                    <a href="modules?courseId=<%= request.getAttribute("courseId")%>" style="text-decoration: none; margin-right: 10px">
+                        <i class="fa-regular fa-square-caret-left"></i>
                     </a>
-                    <%
-                        }
-                    } else {
-                    %>
-                    <div class="list-group-item">No modules found.</div>
-                    <%
-                        }
-                    %>
+                    <%= request.getAttribute("courseName")%>
+                </h2>
+                <h3 class="mt-2" style="color: #2c3e50; font-weight: 500"><%= request.getAttribute("moduleName")%></h3>
+            </div>
+
+            <div class="px-5 mt-4">
+                <div class="row">
+
+                    <!--Materials menu list-->
+                    <div class="col-md-3"> 
+                        <div class="list-group list-group-numbered border-right"> 
+                            <%
+                                List<Material> materials = (List<Material>) request.getAttribute("materials");
+                                if (materials != null && !materials.isEmpty()) {
+                                    for (Material material : materials) {
+                            %>
+                            <a href="materials?moduleId=<%= request.getAttribute("moduleId") %>&courseId=<%= request.getAttribute("courseId") %>&materialId=<%= material.getMaterialId()%>" class="list-group-item list-group-item-action">
+                                <%= material.getMaterialName()%>
+                            </a>
+                            <%
+                                }
+                            } else {
+                            %>
+                            <div class="list-group-item">No materials found.</div>
+                            <%
+                                }
+                            %>
+                        </div>
+                    </div> 
+
+                    <!--Material information select-->
+                    <div class="col-md-9">
+                        <%
+                            Material material = (Material) request.getAttribute("material");
+                            if (material != null) {
+                        %>
+                        <h2><%= material.getMaterialName()%></h2>
+                        <p>
+                            <strong>Type:</strong> <%= material.getMaterialType()%><br>
+                            <strong>Last Update:</strong> <%= material.getLastUpdate()%>
+                        </p>
+
+                        <!--Mardown text here-->
+                        <p><strong>Mardown file location: </strong><%= material.getLocation()%></p>
+
+                        <%
+                        } else {
+                        %>
+                        <p>Select a material from the sidebar to view its content.</p>
+                        <%
+                            }
+                        %>
+                    </div>
                 </div>
             </div>
         </main>

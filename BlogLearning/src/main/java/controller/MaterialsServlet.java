@@ -5,6 +5,7 @@
 package controller;
 
 import dao.CoursesDAO;
+import dao.MaterialsDAO;
 import dao.ModulesDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -17,9 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Course;
+import model.Material;
 import model.Module;
 import model.User;
 
@@ -27,8 +27,8 @@ import model.User;
  *
  * @author XPS
  */
-@WebServlet(name = "ModulesServlet", urlPatterns = {"/modules"})
-public class ModulesServlet extends HttpServlet {
+@WebServlet(name = "MaterialsServlet", urlPatterns = {"/materials"})
+public class MaterialsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,10 +47,10 @@ public class ModulesServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModulesServlet</title>");
+            out.println("<title>Servlet MaterialsServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ModulesServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MaterialsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,38 +69,56 @@ public class ModulesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Get User information and courseId
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("account");
-        if (user == null) {
-            response.sendRedirect("sign-in");
-            return;
-        }
+//        HttpSession session = request.getSession();
+//        User user = (User) session.getAttribute("account");
+//        if (user == null) {
+//            response.sendRedirect("sign-in");
+//            return;
+//        }
 
-        // Get courseId params
+        // Get courseId and moduleId params
         String courseIdString = request.getParameter("courseId");
-        if (courseIdString == null || courseIdString.isEmpty()) {
+        String moduleIdString = request.getParameter("moduleId");
+        String materialIdString = request.getParameter("materialId");
+        if (courseIdString == null || courseIdString.isEmpty() || moduleIdString == null || moduleIdString.isEmpty()) {
             response.getWriter().println("Course ID is missing.");
             return;
         }
 
         try {
             int courseId = Integer.parseInt(courseIdString);
+            int moduleId = Integer.parseInt(moduleIdString);
 
+            MaterialsDAO materialsDAO = new MaterialsDAO();
             ModulesDAO modulesDAO = new ModulesDAO();
             CoursesDAO coursesDAO = new CoursesDAO();
-            List<Module> modules = modulesDAO.getModulesByCourseId(courseId);
+
+            List<Material> materials = materialsDAO.getMaterialsByModuleId(moduleId);
             Course course = coursesDAO.findById(courseId);
-            
-            request.setAttribute("modules", modules);
+            Module module = modulesDAO.findById(moduleId);
+
+            Material material;
+            if (materialIdString == null || materialIdString.isEmpty()) {
+                material = materialsDAO.getTopMaterialsByModuleId(moduleId);
+            } else {
+                int materialId = Integer.parseInt(materialIdString);
+                material = materialsDAO.findById(materialId);
+            }
+
+            request.setAttribute("materials", materials);
             request.setAttribute("courseName", course.getCourseName());
             request.setAttribute("courseId", course.getCourseId());
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/modules.jsp");
+            request.setAttribute("moduleName", module.getModuleName());
+            request.setAttribute("moduleId", module.getModuleId());
+            request.setAttribute("material", material);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/materials.jsp");
             dispatcher.forward(request, response);
 
         } catch (NumberFormatException e) {
-            response.getWriter().println("Invalid Course ID.");
+            response.getWriter().println("Invalid courseId or moduleId (NumberFormatException).");
         } catch (SQLException ex) {
-            response.getWriter().println("Invalid Course ID.");
+            response.getWriter().println("Invalid courseId or moduleId (SQLException)");
         }
     }
 

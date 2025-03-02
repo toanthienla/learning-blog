@@ -35,4 +35,22 @@ public class ModulesDAO extends DBContext {
         }
         return modules;
     }
+
+    public Module findById(int moduleId) throws SQLException {
+        String sql = "SELECT * FROM Modules WHERE ModuleId = ?";
+        try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, moduleId);
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    Module module = new Module();
+                    module.setModuleId(resultSet.getInt("ModuleId"));
+                    module.setModuleName(resultSet.getString("ModuleName"));
+                    module.setLastUpdate(resultSet.getDate("LastUpdate"));
+                    module.setCourseId(resultSet.getInt("CourseId"));
+                    return module;
+                }
+            }
+        }
+        return null; // Module not found
+    }
 }

@@ -82,8 +82,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/BlogLearning">Home</a>
                         </li>
-                         <li class="nav-item">
-                            <a class="nav-link" href="course">Courses</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="courses">Courses</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="dashboard">Dashboard</a>
@@ -134,7 +134,7 @@
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<%= email%>" readonly>
                             </div>
-                            <div class="mb-3">
+                            <div>
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required> 
                             </div>
@@ -152,7 +152,7 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-                crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 let msg = "<%= msg != null ? msg : ""%>";
