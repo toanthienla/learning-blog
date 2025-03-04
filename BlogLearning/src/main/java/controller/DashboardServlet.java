@@ -14,8 +14,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Course;
+import model.CourseProgress;
 import model.Role;
 import model.User;
 
@@ -43,9 +47,22 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("top3", top3);
 
         CoursesDAO courseDao = new CoursesDAO();
+        try {
+            List<CourseProgress> detailCourses = courseDao.getDetailCourseEnroll(user.getId());
+            request.setAttribute("detailCourses", detailCourses);
+        } catch (SQLException ex) {
+            response.sendRedirect("/BlogLearning");
+            return;
+        }
         if (user.getRole().equals(Role.PUBLISHER)) {
-            List<Course> ownCourses = courseDao.getOwnCourse(user.getId());
-            request.setAttribute("ownCourses", ownCourses);
+            List<Course> ownCourses;
+            try {
+                ownCourses = courseDao.getOwnCourse(user.getId());
+                request.setAttribute("ownCourses", ownCourses);
+            } catch (SQLException ex) {
+                response.sendRedirect("/BlogLearning");
+                return;
+            }
         }
 
         request.setAttribute("id", user.getId());

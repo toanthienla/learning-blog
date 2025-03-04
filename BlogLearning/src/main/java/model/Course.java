@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Course {
     private int courseId;
@@ -8,6 +10,7 @@ public class Course {
     private Date publicDate;
     private Date lastUpdate;
     private int authorId;
+    private List<Module> modules;
 
     public Course(int courseId, String courseName, Date publicDate, Date lastUpdate, int authorId) {
         this.courseId = courseId;
@@ -15,6 +18,7 @@ public class Course {
         this.publicDate = publicDate;
         this.lastUpdate = lastUpdate;
         this.authorId = authorId;
+        this.modules = new ArrayList();
     }
 
     public Course() {
@@ -59,4 +63,22 @@ public class Course {
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
+
+    public List<Module> getModules() {
+        return modules;
+    }
+    
+    public Module getModule(int moduleId){
+        for (Module module : modules) {
+            if(module.getModuleId() == moduleId){
+                return module;
+            }
+        }
+        return null;
+    }
+
+    public void addModule(Module module) {
+        modules.add(module);
+    }
+    
 }

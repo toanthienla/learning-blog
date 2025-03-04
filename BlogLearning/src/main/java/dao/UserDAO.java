@@ -168,7 +168,7 @@ public class UserDAO extends DBContext {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, role == Role.PUBLISHER ? 0 : 1);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while(rs.next()) {
                 top3User.add(new User(
                         rs.getInt("UserId"),
                         rs.getString("UserName"),

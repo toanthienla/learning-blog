@@ -5,12 +5,15 @@
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Module {
     private int moduleId;
     private String moduleName;
     private Date lastUpdate;
     private int courseId;
+    private List<MaterialProgress> materials;
     
     public Module() {
     }
@@ -20,6 +23,7 @@ public class Module {
         this.moduleName = moduleName;
         this.lastUpdate = lastUpdate;
         this.courseId = courseId;
+        this.materials = new ArrayList<>();
     }
 
     public int getModuleId() {
@@ -53,6 +57,22 @@ public class Module {
     public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
+
+    public List<MaterialProgress> getMaterials() {
+        return materials;
+    }
+
+    public MaterialProgress getMaterial(int materialId){
+        for (MaterialProgress material : materials) {
+            if(material.getMaterialId() == materialId){
+                return material;
+            }
+        }
+        return null;
+    }
     
+    public void addMaterial(MaterialProgress material) {
+        materials.add(material);
+    }
     
 }

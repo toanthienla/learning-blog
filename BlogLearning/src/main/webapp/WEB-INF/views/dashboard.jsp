@@ -4,6 +4,9 @@
     Author     : Asus
 --%>
 
+<%@page import="model.MaterialProgress"%>
+<%@page import="model.Module"%>
+<%@page import="model.CourseProgress"%>
 <%@page import="model.Course"%>
 <%@page import="java.util.List"%>
 <%@page import="model.User"%>
@@ -92,15 +95,15 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-                        <h2>Total point:</h2>
+                        <h3>Total point:</h3>
                         <p><%= point%></p>
                     </div>
                     <div class="col-lg-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-                        <h2>Current Rank</h2>
+                        <h3>Current Rank</h3>
                         <p>#<%= rank%></p>
                     </div>
                     <div class="col-lg-6 shadow p-3 mb-5 bg-body-tertiary rounded">
-                        <h2>Top point Users</h2>
+                        <h3>Top point <%=role%></h3>
                         <%
                             int top = 1;
                             for (User user : top3) {
@@ -113,8 +116,58 @@
                     </div>
                 </div>
                 <%
-                    List<Course> ownCourses = (List<Course>) request.getAttribute("ownCourses");
-                    if (ownCourses != null) {
+                    if (request.getAttribute("detailCourses") != null) {
+                        List<CourseProgress> detailCourses = (List<CourseProgress>) request.getAttribute("detailCourses");
+                %>
+                <div class="row">
+                    <%
+                        for (CourseProgress course : detailCourses) {
+                    %>
+                    <div class="col-lg-12 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                        <h3>Course: <%= course.getCourseName()%></h3>
+                        <progress value="<%= course.getProgress()%>" max="100"></progress>
+                        <%
+                            for (Module module : course.getModules()) {
+                        %>
+                        <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
+                            <h4>Module: <%=module.getModuleName()%></h4>
+                            <%
+                                for (MaterialProgress material : module.getMaterials()) {
+                            %>
+                            <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                                <h5><%=material.getMaterialName()%></h5>
+                                <p>Type: <%= material.getMaterialType()%></p>
+                                <%
+                                    if (material.getCompleteDate() != null) {
+                                %>
+                                <p>Complete Date: <%= material.getCompleteDate()%></p>
+                                <%
+                                } else {
+                                %>
+                                <p>Uncompleted</p>
+                                <%
+                                    }
+                                %>
+
+                            </div>
+                            <%
+                                }
+                            %>
+                        </div>
+                        <%
+                            }
+                        %>
+                    </div>
+                    <%
+                        }
+                    %>
+                </div>
+                <%
+                    }
+                %>
+                <%
+                    if (request.getAttribute("ownCourses") != null) {
+                        List<Course> ownCourses = (List<Course>) request.getAttribute("ownCourses");
                 %>
                 <h2>Pulished Courses</h2>
                 <div class="row">
