@@ -48,7 +48,7 @@
             int point = (int) request.getAttribute("point");
             int rank = (int) request.getAttribute("rank");
             List<User> top3 = (List<User>) request.getAttribute("top3");
-            if (userId != 0 && !username.isEmpty() && !role.isEmpty() && point >= 0 && rank != 0 && top3 != null) {
+            if (userId != 0 && !username.isEmpty() && !role.isEmpty() && point >= 0 && rank != 0) {
         %>
         <header>
             <nav class="navbar navbar-light bg-white">
