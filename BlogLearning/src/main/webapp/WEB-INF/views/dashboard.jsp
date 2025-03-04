@@ -26,6 +26,12 @@
                 margin: auto;
                 padding-top: 1rem;
                 font-size: 18px;
+                overflow-x: auto; /* Enable horizontal scrolling */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+                scrollbar-width: none; /* Hide scrollbar in Firefox */
+            }
+            .navbar-nav::-webkit-scrollbar {
+                display: none; /* Hide scrollbar in Chrome/Safari */
             }
             .nav-link {
                 color: #bdc3c7;
