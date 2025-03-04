@@ -62,7 +62,7 @@
                             <a class="nav-link" href="settings">Settings</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Admin</a>
+                            <a class="nav-link" href="admin">Admin</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="sign-in">Login</a>
@@ -93,14 +93,14 @@
                 <div class="row">
 
                     <!--Materials menu list-->
-                    <div class="col-md-3"> 
+                    <div class="col-md-3 mb-2"> 
                         <div class="list-group list-group-numbered border-right"> 
                             <%
                                 List<Material> materials = (List<Material>) request.getAttribute("materials");
                                 if (materials != null && !materials.isEmpty()) {
                                     for (Material material : materials) {
                             %>
-                            <a href="materials?moduleId=<%= request.getAttribute("moduleId") %>&courseId=<%= request.getAttribute("courseId") %>&materialId=<%= material.getMaterialId()%>" class="list-group-item list-group-item-action">
+                            <a href="materials?moduleId=<%= request.getAttribute("moduleId")%>&courseId=<%= request.getAttribute("courseId")%>&materialId=<%= material.getMaterialId()%>" class="list-group-item list-group-item-action">
                                 <%= material.getMaterialName()%>
                             </a>
                             <%
@@ -120,14 +120,35 @@
                             Material material = (Material) request.getAttribute("material");
                             if (material != null) {
                         %>
-                        <h2><%= material.getMaterialName()%></h2>
+                        <h2 ><%= material.getMaterialName()%></h2>
                         <p>
                             <strong>Type:</strong> <%= material.getMaterialType()%><br>
                             <strong>Last Update:</strong> <%= material.getLastUpdate()%>
                         </p>
 
-                        <!--Mardown text here-->
-                        <p><strong>Mardown file location: </strong><%= material.getLocation()%></p>
+                        <!--Markdown text here-->
+                        <p><strong>Markdown file location: </strong><%= material.getLocation()%></p>
+
+                        <!--Mark Completed and Unmark Completed button-->
+                        <!--Use display none to hidden button to solve reading id null-->
+                        <%
+                            boolean isMaterialStudied = (boolean) request.getAttribute("isUserStudied"); // Get the value from the request attribute
+                        %>
+                        <% if (isMaterialStudied) {%>
+                        <button type="button" class="btn btn-secondary" id="unmarkCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
+                            Unmark Completed
+                        </button>
+                        <button style="display: none" type="button" class="btn btn-primary" id="markCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
+                            Mark Completed
+                        </button>
+                        <% } else {%>
+                        <button  type="button" class="btn btn-primary" id="markCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
+                            Mark Completed
+                        </button>
+                        <button style="display: none" type="button" class="btn btn-secondary" id="unmarkCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
+                            Unmark Completed
+                        </button>
+                        <% } %>
 
                         <%
                         } else {
@@ -141,6 +162,39 @@
             </div>
         </main>
 
+        <script>
+            /**
+             * Handles the mark complete/unmark complete button click event.
+             * 
+             * Steps:
+             * 1. Check if `completeData` is NULL using `materialId` and `userId`:
+             *    - If NULL, show "Mark Completed" button.
+             *    - Otherwise, show "Unmark Completed" button.
+             * 2. If the user is not enrolled in the course, enroll them.
+             * 3. Update the `completeDate` field in the `Study` record.
+             * 4. Change the "Mark Completed" button to "Unmark Completed".
+             * 5. If the user clicks "Unmark Completed", set the `completeDate` in `Study` to NULL.
+             */
+
+            document.getElementById('markCompletedBtn').addEventListener('click', function () {
+                const courseId = this.getAttribute('data-course-id');
+                const materialId = this.getAttribute('data-material-id');
+                fetch('materials?action=mark&courseId=' + courseId + '&materialId=' + materialId, {
+                    method: 'POST'
+                }).then(response => {
+                    window.location.reload();
+                });
+            });
+            document.getElementById('unmarkCompletedBtn').addEventListener('click', function () {
+                const courseId = this.getAttribute('data-course-id');
+                const materialId = this.getAttribute('data-material-id');
+                fetch('materials?action=unmark&courseId=' + courseId + '&materialId=' + materialId, {
+                    method: 'POST'
+                }).then(response => {
+                    window.location.reload();
+                });
+            });
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
         crossorigin="anonymous"></script>

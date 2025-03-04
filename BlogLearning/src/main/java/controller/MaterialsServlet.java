@@ -5,8 +5,10 @@
 package controller;
 
 import dao.CoursesDAO;
+import dao.EnrollDAO;
 import dao.MaterialsDAO;
 import dao.ModulesDAO;
+import dao.StudyDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -69,12 +71,12 @@ public class MaterialsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Get User information and courseId
-//        HttpSession session = request.getSession();
-//        User user = (User) session.getAttribute("account");
-//        if (user == null) {
-//            response.sendRedirect("sign-in");
-//            return;
-//        }
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("account");
+        if (user == null) {
+            response.sendRedirect("sign-in");
+            return;
+        }
 
         // Get courseId and moduleId params
         String courseIdString = request.getParameter("courseId");
@@ -98,11 +100,24 @@ public class MaterialsServlet extends HttpServlet {
             Module module = modulesDAO.findById(moduleId);
 
             Material material;
+            int materialId;
             if (materialIdString == null || materialIdString.isEmpty()) {
+                // Default select top1 materials
                 material = materialsDAO.getTopMaterialsByModuleId(moduleId);
+                materialId = material.getMaterialId();
             } else {
-                int materialId = Integer.parseInt(materialIdString);
+                // Get material by params
+                materialId = Integer.parseInt(materialIdString);
                 material = materialsDAO.findById(materialId);
+            }
+
+            // Check user already study this material
+            StudyDAO studyDAO = new StudyDAO();
+            boolean isMaterialStudiedByUser = studyDAO.isMaterialStudiedByUser(user.getId(), materialId);
+            if (isMaterialStudiedByUser) {
+                request.setAttribute("isUserStudied", true);
+            } else {
+                request.setAttribute("isUserStudied", false);
             }
 
             request.setAttribute("materials", materials);
@@ -111,6 +126,7 @@ public class MaterialsServlet extends HttpServlet {
             request.setAttribute("moduleName", module.getModuleName());
             request.setAttribute("moduleId", module.getModuleId());
             request.setAttribute("material", material);
+            request.setAttribute("materialId", material.getMaterialId());
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/materials.jsp");
             dispatcher.forward(request, response);
@@ -133,7 +149,48 @@ public class MaterialsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("account");
+        String courseIdString = request.getParameter("courseId");
+        String materialIdString = request.getParameter("materialId");
+
+        if (courseIdString == null || courseIdString.isEmpty() || materialIdString == null || materialIdString.isEmpty()) {
+            response.getWriter().println("Course ID or Material ID is missing.");
+            return;
+        }
+        int userId = user.getId();
+        int courseId = Integer.parseInt(courseIdString);
+        int materiaId = Integer.parseInt(materialIdString);
+
+        try {
+            StudyDAO studyDAO = new StudyDAO();
+            System.out.println("Action type: " + action);
+            if ("mark".equals(action)) {
+
+                // Insert to user with courseId to Enroll table
+                EnrollDAO enrollDAO = new EnrollDAO();
+                if (!enrollDAO.isUserEnrollCourse(userId, courseId)) {
+                    enrollDAO.insertUser(userId, courseId);
+                }
+
+                // Mark material studied
+                studyDAO.markMaterialAsStudied(userId, materiaId);
+            } else if ("unmark".equals(action)) {
+                System.out.println("Unmark user materials");
+                // Unmark material studied
+                studyDAO.unmarkMaterialAsStudied(userId, materiaId);
+            }
+
+            // Invert the isMaterialStudiedByUser value after marking/unmarking
+            boolean isMaterialStudiedByUser = !studyDAO.isMaterialStudiedByUser(userId, materiaId);
+            request.setAttribute("isUserStudied", isMaterialStudiedByUser);
+
+            // Forward to the same page (doGet) to reflect the updated status
+            doGet(request, response);
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println(e);
+        }
     }
 
     /**

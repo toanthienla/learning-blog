@@ -92,7 +92,7 @@
                             <a class="nav-link active" href="settings">Settings</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Admin</a>
+                            <a class="nav-link" href="admin">Admin</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="sign-in">Login</a>
