@@ -15,6 +15,12 @@
                 margin: auto;
                 padding-top: 1rem;
                 font-size: 18px;
+                overflow-x: auto; /* Enable horizontal scrolling */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+                scrollbar-width: none; /* Hide scrollbar in Firefox */
+            }
+            .navbar-nav::-webkit-scrollbar {
+                display: none; /* Hide scrollbar in Chrome/Safari */
             }
             .nav-link {
                 color: #bdc3c7;
@@ -87,25 +93,25 @@
 
             <div class="container mt-4">
                 <h4 class="mb-3" style="color: #2c3e50;">Modules list</h3>
-                <div class="list-group list-group-numbered list-group-flush">
-                    <%
-                        // Assuming you have a List<Module> named 'modules' available in the request
-                        List<Module> modules = (List<Module>) request.getAttribute("modules");
-                        if (modules != null && !modules.isEmpty()) {
-                            for (Module module : modules) {
-                    %>
-                    <a href="materials?moduleId=<%= module.getModuleId()%>&courseId=<%= request.getAttribute("courseId") %>" class="list-group-item list-group-item-action">
-                        <%= module.getModuleName()%>
-                    </a>
-                    <%
-                        }
-                    } else {
-                    %>
-                    <div class="list-group-item">No modules found.</div>
-                    <%
-                        }
-                    %>
-                </div>
+                    <div class="list-group list-group-numbered list-group-flush">
+                        <%
+                            // Assuming you have a List<Module> named 'modules' available in the request
+                            List<Module> modules = (List<Module>) request.getAttribute("modules");
+                            if (modules != null && !modules.isEmpty()) {
+                                for (Module module : modules) {
+                        %>
+                        <a href="materials?moduleId=<%= module.getModuleId()%>&courseId=<%= request.getAttribute("courseId")%>" class="list-group-item list-group-item-action">
+                            <%= module.getModuleName()%>
+                        </a>
+                        <%
+                            }
+                        } else {
+                        %>
+                        <div class="list-group-item">No modules found.</div>
+                        <%
+                            }
+                        %>
+                    </div>
             </div>
         </main>
 
