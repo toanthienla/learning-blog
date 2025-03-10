@@ -11,6 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -91,6 +95,32 @@ public class Util {
         }
 
         return "";
+    }
+
+    /**
+     * Method for writing file (markdown file), to data folder. The folder is
+     * located in working directory
+     *
+     * @param file - The java.io.File object of the file to be written
+     * @throws IOException - Throws IOException if there is error writing to
+     * file
+     */
+    public static void writeFile(File file) throws IOException {
+        //Create data folder if not exists
+        File folder = new File("data");
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        }
+
+        //Write file object to data folder
+        File destFile = new File(folder, file.getName()); //Create a file in data folder, with the same file name
+        try ( InputStream in = new FileInputStream(file);  OutputStream out = new FileOutputStream(destFile)) {
+            byte[] buffer = new byte[1024]; //buffer for reading byte content in file
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) { //Continue reading until no byte can be read
+                out.write(buffer, 0, bytesRead); //Write data to file
+            }
+        }
     }
 
     public static void main(String[] args) {
