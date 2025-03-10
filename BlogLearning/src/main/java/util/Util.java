@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -121,6 +122,17 @@ public class Util {
                 out.write(buffer, 0, bytesRead); //Write data to file
             }
         }
+    }
+
+    public static String readFile(String path) throws FileNotFoundException, IOException {
+        File file = new File(path);
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        return sb.toString();
     }
 
     public static void main(String[] args) {

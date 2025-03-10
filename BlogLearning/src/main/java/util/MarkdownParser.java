@@ -11,6 +11,7 @@ import com.vladsch.flexmark.ext.tables.TablesExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.options.MutableDataSet;
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -51,17 +52,23 @@ public class MarkdownParser {
      * @return - The HTML String equivalences
      */
     public String convertToHtml(String path) {
-        //Read content from file
-        String markdown = Util.readFileFromResources(path);
+        //String markdown = Util.readFileFromResources(path);
+        try {
+            //Read content from file
+            String markdown = Util.readFile(path);
+            
+            // Parse and render markdown
+            Node document = parser.parse(markdown);
+            String html = renderer.render(document);
 
-        // Parse and render markdown
-        Node document = parser.parse(markdown);
-        String html = renderer.render(document);
+            // Process LaTeX equations
+            html = MathHandler.processLatexEquations(html);
 
-        // Process LaTeX equations
-        html = MathHandler.processLatexEquations(html);
-
-        return html;
+            return html;
+        } catch (IOException e) {
+            Util.logError(String.format("Error reading markdown file: %s\nError: %s\n", path, e.getMessage()));
+        }
+        return "";
     }
 
     public static void main(String[] args) {
