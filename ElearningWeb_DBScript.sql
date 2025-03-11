@@ -156,3 +156,15 @@ SELECT * FROM Materials
 UPDATE Materials
 SET Location = 'materials/Introduction_to_HTML.md'
 WHERE MaterialId = 301
+
+UPDATE Materials
+SET Location = 'materials/HTML_tags_and_elements.md'
+WHERE MaterialId = 302
+
+UPDATE Materials
+SET Location = 'materials/CSS_selectors.md'
+WHERE MaterialId = 303
+
+UPDATE Materials
+SET Location = 'materials/Flexbox_and_grid.md'
+WHERE MaterialId = 304
