@@ -52,23 +52,14 @@ public class MarkdownParser {
      * @return - The HTML String equivalences
      */
     public String convertToHtml(String path) {
-        //String markdown = Util.readFileFromResources(path);
-        try {
-            //Read content from file
-            String markdown = Util.readFile(path);
-            
-            // Parse and render markdown
-            Node document = parser.parse(markdown);
-            String html = renderer.render(document);
-
-            // Process LaTeX equations
-            html = MathHandler.processLatexEquations(html);
-
-            return html;
-        } catch (IOException e) {
-            Util.logError(String.format("Error reading markdown file: %s\nError: %s\n", path, e.getMessage()));
-        }
-        return "";
+        //Read content from file
+        String markdown = Util.readFileFromResources(path);
+        // Parse and render markdown
+        Node document = parser.parse(markdown);
+        String html = renderer.render(document);
+        // Process LaTeX equations
+        html = MathHandler.processLatexEquations(html);
+        return html;
     }
 
     public static void main(String[] args) {

@@ -1,6 +1,12 @@
+<%@page import="util.Util"%>
+<%@page import="util.MarkdownParser"%>
 <%@page import="model.Material"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    MarkdownParser parser = new MarkdownParser();
+%>
 
 <!DOCTYPE html>
 <html>
@@ -47,6 +53,45 @@
 
             .fa-square-caret-left:hover {
                 color: #2c3e50;
+            }
+
+            pre {
+                background: #f5f5f5;
+                padding: 1em;
+                border-radius: 4px;
+            }
+
+            blockquote {
+                border-left: 4px solid #ccc;
+                margin: 0;
+                padding-left: 1em;
+                padding-top: 20px;
+                padding-bottom: 10px;
+                border-radius: 3px;
+            }
+
+            img {
+                max-width: 100%;
+            }
+
+            .math-display {
+                text-align: center;
+                margin: 1em 0;
+            }
+
+            pre code {
+                font-family: 'Fira Code', monospace;
+                white-space: pre-wrap;
+            }
+
+            code {
+                background: #f5f5f5;
+                padding: 2px 4px;
+                border-radius: 3px;
+            }
+
+            p {
+                text-align: justify;
             }
         </style>
     </head>
@@ -133,7 +178,10 @@
                         </p>
 
                         <!--Markdown text here-->
-                        <p><strong>Markdown file location: </strong><%= material.getLocation()%></p>
+                        <!--// <p><strong>Markdown file location: </strong><%= material.getLocation()%></p>-->
+                        <div class="content">
+                            <%=  parser.convertToHtml(material.getLocation())%>
+                        </div>
 
                         <!--Mark Completed and Unmark Completed button-->
                         <!--Use display none to hidden button to solve reading id null-->
@@ -168,6 +216,73 @@
             </div>
         </main>
 
+
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-java.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+        <script>
+            function loadScript(src) {
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement("script");
+                    script.src = src;
+                    script.async = true;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+            }
+
+            Promise.all([
+                loadScript("https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"),
+                loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"),
+                loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-java.min.js"),
+                loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js")
+            ]).then(() => {
+                console.log("All scripts loaded successfully!");
+                Prism.highlightAll(); // Re-highlight Prism syntax
+            }).catch(err => {
+                console.error("Script failed to load", err);
+            });
+
+
+            document.addEventListener('DOMContentLoaded', function () {
+                // Render display math
+                document.querySelectorAll('.math-display').forEach(function (element) {
+                    katex.render(element.getAttribute('data-katex'), element, {
+                        displayMode: true,
+                        throwOnError: false
+                    });
+                });
+                // Render inline math
+                document.querySelectorAll('.math-inline').forEach(function (element) {
+                    katex.render(element.getAttribute('data-katex'), element, {
+                        displayMode: false,
+                        throwOnError: false
+                    });
+                });
+            });
+
+            document.querySelectorAll("pre code").forEach((codeBlock) => {
+                let lines = codeBlock.innerHTML.split("\n");
+
+                // Remove empty lines at the beginning and end
+                while (lines.length && lines[0].trim() === "")
+                    lines.shift();
+                while (lines.length && lines[lines.length - 1].trim() === "")
+                    lines.pop();
+
+                // Find the minimum indentation (excluding empty lines)
+                let minIndent = lines.reduce((min, line) => {
+                    let match = line.match(/^\s*/);
+                    let leadingSpaces = match ? match[0].length : 0;
+                    return line.trim() ? Math.min(min, leadingSpaces) : min;
+                }, Infinity);
+
+                // Trim the minimum indentation from each line
+                codeBlock.innerHTML = lines.map(line => line.substring(minIndent)).join("\n");
+            });
+        </script>
         <script>
             /**
              * Handles the mark complete/unmark complete button click event.
