@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author Asus
  */
-@WebServlet(name="LogOutServlet", urlPatterns={"/log-out"})
+@WebServlet(name="LogOutServlet", urlPatterns={"/logout"})
 public class LogOutServlet extends HttpServlet {
    
     private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
