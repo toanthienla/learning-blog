@@ -1,15 +1,16 @@
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
+
     private int courseId;
     private String courseName;
     private Date publicDate;
     private Date lastUpdate;
-    private int authorId;
+    private int authorId;   
     private List<Module> modules;
 
     public Course(int courseId, String courseName, Date publicDate, Date lastUpdate, int authorId) {
@@ -67,10 +68,10 @@ public class Course {
     public List<Module> getModules() {
         return modules;
     }
-    
-    public Module getModule(int moduleId){
+
+    public Module getModule(int moduleId) {
         for (Module module : modules) {
-            if(module.getModuleId() == moduleId){
+            if (module.getModuleId() == moduleId) {
                 return module;
             }
         }
@@ -80,5 +81,17 @@ public class Course {
     public void addModule(Module module) {
         modules.add(module);
     }
-    
+
+    // Override toString để debug dễ hơn
+    @Override
+    public String toString() {
+        return "Course{"
+                + "courseId=" + courseId
+                + ", courseName='" + courseName + '\''
+                + ", publicDate=" + publicDate
+                + ", lastUpdate=" + lastUpdate
+                + ", authorId=" + authorId
+                + '}';
+    }
+
 }

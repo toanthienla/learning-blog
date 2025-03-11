@@ -14,7 +14,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.User;
+import model.Role;
 
 /**
  *
@@ -43,6 +46,7 @@ public class SignInServlet extends HttpServlet {
             
             //Add attribute to session
             session.setAttribute("account", user);
+            session.setAttribute("role", user.getRole());
             //request.getRequestDispatcher("main").forward(request, response);
             response.sendRedirect("/BlogLearning");
         } catch (SQLException e) {

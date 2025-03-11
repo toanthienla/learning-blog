@@ -114,7 +114,49 @@ public class CoursesDAO extends DBContext {
         }
         return courses;
     }
+
+    // Thêm khóa học mới
+    public void addCourse(Course course) throws SQLException {
+        String sql = "INSERT INTO Courses (CourseId, CourseName, PublicDate, LastUpdate, AuthorId) VALUES (?, ?, ?, ?, ?)";
+        try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, course.getCourseId());
+            preparedStatement.setString(2, course.getCourseName());
+            preparedStatement.setDate(3, new java.sql.Date(course.getPublicDate().getTime()));
+            preparedStatement.setDate(4, new java.sql.Date(course.getLastUpdate().getTime()));
+            preparedStatement.setInt(5, course.getAuthorId());
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    // Cập nhật thông tin khóa học
+    public void updateCourse(Course course) throws SQLException {
+        String sql = "UPDATE Courses SET CourseName = ?, PublicDate = ?, LastUpdate = ?, AuthorId = ? WHERE CourseId = ?";
+        try ( PreparedStatement preparedStatement = this.conn.prepareStatement(sql)) {
+            preparedStatement.setString(1, course.getCourseName());
+            preparedStatement.setDate(2, new java.sql.Date(course.getPublicDate().getTime()));
+            preparedStatement.setDate(3, new java.sql.Date(course.getLastUpdate().getTime()));
+            preparedStatement.setInt(4, course.getAuthorId());
+            preparedStatement.setInt(5, course.getCourseId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // Xóa khóa học
+    public void deleteCourse(int courseId) throws SQLException {
+        String sql = "DELETE FROM Courses WHERE CourseId = ?";
+        try ( PreparedStatement preparedStatement = this.conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, courseId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public static void main(String[] args) {
-        
+
     }
 }
