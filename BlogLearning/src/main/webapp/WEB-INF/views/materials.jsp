@@ -177,33 +177,32 @@
                             <strong>Last Update:</strong> <%= material.getLastUpdate()%>
                         </p>
 
-                        <!--Markdown text here-->
-                        <!--// <p><strong>Markdown file location: </strong><%= material.getLocation()%></p>-->
-                        <div class="content">
-                            <%=  parser.convertToHtml(material.getLocation())%>
-                        </div>
-
                         <!--Mark Completed and Unmark Completed button-->
                         <!--Use display none to hidden button to solve reading id null-->
                         <%
                             boolean isMaterialStudied = (boolean) request.getAttribute("isUserStudied"); // Get the value from the request attribute
                         %>
                         <% if (isMaterialStudied) {%>
-                        <button type="button" class="btn btn-secondary" id="unmarkCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
+                        <button type="button" class="btn btn-secondary mb-2" id="unmarkCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
                             Unmark Completed
                         </button>
-                        <button style="display: none" type="button" class="btn btn-primary" id="markCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
+                        <button style="display: none" type="button" class="btn btn-primary mb-2" id="markCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
                             Mark Completed
                         </button>
                         <% } else {%>
-                        <button  type="button" class="btn btn-primary" id="markCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
+                        <button  type="button" class="btn btn-primary mb-2" id="markCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
                             Mark Completed
                         </button>
-                        <button style="display: none" type="button" class="btn btn-secondary" id="unmarkCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
+                        <button style="display: none" type="button" class="btn btn-secondary mb-2" id="unmarkCompletedBtn" data-course-id="<%= request.getAttribute("courseId")%>" data-material-id="<%= request.getAttribute("materialId")%>">
                             Unmark Completed
                         </button>
-                        <% } %>
+                        <% }%>
 
+                        <!--Markdown text here-->
+                        <div class="content mb-8">
+                            <%=  parser.convertToHtml(material.getLocation())%>
+                        </div>
+                        
                         <%
                         } else {
                         %>
