@@ -94,7 +94,7 @@
         <main class="container">
             <div>
                 <div class="row">
-                    <div class="col-lg-12 shadow-none p-3 mb-5 bg-body-tertiary rounded">
+                    <div class="col-lg-12 shadow p-3 mb-5 bg-body-tertiary rounded">
                         <h2>Welcome</h2>
                         <p><%= role + " " + username%></p>
                     </div>
@@ -129,7 +129,7 @@
                     <%
                         for (CourseProgress course : detailCourses) {
                     %>
-                    <div class="col-lg-12 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                    <div class="col-lg-12 shadow-sm p-3 mb-5 bg-body-tertiary rounded">
                         <h3>Course: <%= course.getCourseName()%></h3>
                         <progress value="<%= course.getProgress()%>" max="100"></progress>
                         <%
@@ -140,7 +140,7 @@
                             <%
                                 for (MaterialProgress material : module.getMaterials()) {
                             %>
-                            <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                            <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">
                                 <h5><%=material.getMaterialName()%></h5>
                                 <p>Type: <%= material.getMaterialType()%></p>
                                 <%
