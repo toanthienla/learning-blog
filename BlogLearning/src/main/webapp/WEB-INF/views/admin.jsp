@@ -9,6 +9,33 @@
         <meta charset="UTF-8">
         <title>Admin - Manage Courses</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .navbar-nav {
+                margin: auto;
+                padding-top: 1rem;
+                font-size: 18px;
+                overflow-x: auto; /* Enable horizontal scrolling */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+                scrollbar-width: none; /* Hide scrollbar in Firefox */
+            }
+            .navbar-nav::-webkit-scrollbar {
+                display: none; /* Hide scrollbar in Chrome/Safari */
+            }
+            .nav-link {
+                color: #bdc3c7;
+            }
+            .nav-link:hover {
+                color: #7f8c8d;
+            }
+            .card {
+                transition: transform 0.2s, box-shadow 0.2s;
+                cursor: pointer; /* Add cursor pointer to indicate clickable */
+            }
+            .card:hover {
+                transform: translateY(-5px); /* Slightly lift the card on hover */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+            }
+        </style>
     </head>
     <body>
 
@@ -21,19 +48,7 @@
             }
         %>
 
-        <header>
-            <nav class="navbar navbar-light bg-white">
-                <div class="container">
-                    <ul class="navbar-nav d-flex flex-row gap-4">
-                        <li class="nav-item"><a class="nav-link" href="/BlogLearning">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="courses">Courses</a></li>
-                        <li class="nav-item"><a class="nav-link" href="dashboard">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="admin">Admin</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+        <jsp:include page="header.jsp" />
 
         <main class="container mt-4">
             <h1>Manage Courses</h1>

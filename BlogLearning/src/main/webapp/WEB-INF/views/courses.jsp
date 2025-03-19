@@ -45,38 +45,7 @@
         </style>
     </head>
     <body>
-        <header>
-            <nav class="navbar navbar-light bg-white">
-                <div class="container">
-                    <ul class="navbar-nav d-flex flex-row gap-4">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/BlogLearning">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="courses">Courses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="dashboard">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="settings">Settings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin">Admin</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="sign-in">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="sign-up">SignUp</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="logout">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+        <jsp:include page="header.jsp" />
 
         <main>
             <h1 class="px-5 mt-2">Courses</h1>

@@ -1,0 +1,78 @@
+<%-- 
+    Document   : index
+    Created on : Mar 20, 2025, 12:27:30 AM
+    Author     : hoqua
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+              crossorigin="anonymous">
+        <style>
+            .navbar-nav {
+                margin: auto;
+                padding-top: 1rem;
+                font-size: 18px;
+                overflow-x: auto; /* Enable horizontal scrolling */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+                scrollbar-width: none; /* Hide scrollbar in Firefox */
+            }
+            .navbar-nav::-webkit-scrollbar {
+                display: none; /* Hide scrollbar in Chrome/Safari */
+            }
+            .jumbotron {
+                padding-top: 10rem;
+                padding-bottom: 10rem;
+                text-align: center;
+            }
+            .jumbotron h1 {
+                font-size: 3.5rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+            }
+            .jumbotron p {
+                font-size: 1.25rem;
+                color: #6c757d;
+                margin-bottom: 2rem;
+            }
+            .btn-primary {
+                padding: 1rem 2rem;
+                font-size: 1.25rem;
+            }
+            .nav-link {
+                color: #bdc3c7;
+            }
+            .nav-link:hover {
+                color: #7f8c8d;
+            }
+            .course-list {
+                text-align: center;
+                margin-top: 2rem;
+                color: #6c757d;
+            }
+        </style>
+    </head>
+    <body>
+        <!--Navbar-->
+        <jsp:include page="/WEB-INF/views/header.jsp"/>
+
+        <!--Main-->
+        <main>
+            <div class="jumbotron">
+                <h1 class="display-4">Making Learning Easy<br>with Our Platform</h1>
+                <p class="lead">We've simplified education to suit your needs with user-friendly courses and a supportive community.</p>
+                <a class="btn btn-primary btn-lg" href="courses" role="button">Get started</a>
+                <p class="course-list">CSD201, MAS291,...</p>
+            </div>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+        crossorigin="anonymous"></script>
+    </body>
+</html>

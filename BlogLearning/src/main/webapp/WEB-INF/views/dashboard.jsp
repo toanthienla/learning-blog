@@ -50,6 +50,7 @@
         </style>
     </head>
     <body>
+        <jsp:include page="header.jsp" />
         <%
             int userId = (int) request.getAttribute("id");
             String username = (String) request.getAttribute("username");
@@ -59,38 +60,7 @@
             List<User> top3 = (List<User>) request.getAttribute("top3");
             if (userId != 0 && !username.isEmpty() && !role.isEmpty() && point >= 0 && rank != 0) {
         %>
-        <header>
-            <nav class="navbar navbar-light bg-white">
-                <div class="container">
-                    <ul class="navbar-nav d-flex flex-row gap-4">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/BlogLearning">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="courses">Courses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="dashboard">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="settings">Settings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Admin</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="sign-in">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="sign-up">SignUp</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="logout">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+        
         <main class="container">
             <div>
                 <div class="row">
