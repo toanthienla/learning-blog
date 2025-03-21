@@ -168,11 +168,22 @@
 
                         <!--Markdown text here-->
                         <div class="content mb-8">
-                            <%=  parser.convertToHtml(material.getLocation())%>
+                            <%
+                                try {
+                                    String html = parser.convertToHtml(
+                                        System.getProperty("user.dir") + "/" + material.getLocation());
+                                    if (html.isEmpty()) {
+                                        out.println("No content found");
+                                    }
+                                    out.println(html);
+                                } catch (Exception e) {
+                                    out.println(e.getMessage());
+                                }
+
+                            %>
                         </div>
-                        
-                        <%
-                        } else {
+
+                        <%                        } else {
                         %>
                         <p>Select a material from the sidebar to view its content.</p>
                         <%

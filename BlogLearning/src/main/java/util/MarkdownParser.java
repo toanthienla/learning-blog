@@ -13,6 +13,8 @@ import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.options.MutableDataSet;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,10 +52,11 @@ public class MarkdownParser {
      *
      * @param path - The content of the markdown
      * @return - The HTML String equivalences
+     * @throws java.lang.Exception
      */
-    public String convertToHtml(String path) {
+    public String convertToHtml(String path) throws Exception {
         //Read content from file
-        String markdown = Util.readFileFromResources(path);
+        String markdown = Util.readFile(path);
         // Parse and render markdown
         Node document = parser.parse(markdown);
         String html = renderer.render(document);
@@ -63,9 +66,13 @@ public class MarkdownParser {
     }
 
     public static void main(String[] args) {
-        // Convert markdown to HTML
-        MarkdownParser converter = new MarkdownParser();
-        String html = converter.convertToHtml("article_example.md");
-        System.out.println(html);
+        try {
+            // Convert markdown to HTML
+            MarkdownParser converter = new MarkdownParser();
+            String html = converter.convertToHtml("materials/Introduction_to_HTML.md");
+            System.out.println(html);
+        } catch (Exception ex) {
+            Logger.getLogger(MarkdownParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

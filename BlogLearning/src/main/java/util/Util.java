@@ -75,7 +75,7 @@ public class Util {
         URL url = Util.class.getResource(fileName);
         return new File(url.toURI());
     }
-    
+
     public static String readFileFromResources(String fileName) {
         try {
             File file = getResource(fileName);
@@ -107,13 +107,13 @@ public class Util {
      */
     public static void writeFile(File file) throws IOException {
         //Create data folder if not exists
-        File folder = new File("data");
+        File folder = new File("material");
         if (!folder.exists() || !folder.isDirectory()) {
             folder.mkdir();
         }
 
         //Write file object to data folder
-        File destFile = new File(folder, file.getName()); //Create a file in data folder, with the same file name
+        File destFile = new File(folder, file.getName()); //Create a file in material folder, with the same file name
         try ( InputStream in = new FileInputStream(file);  OutputStream out = new FileOutputStream(destFile)) {
             byte[] buffer = new byte[1024]; //buffer for reading byte content in file
             int bytesRead;
@@ -123,8 +123,25 @@ public class Util {
         }
     }
 
+    public static String readFile(String filePath) throws FileNotFoundException, IOException {
+        File file = new File(filePath);
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
-        //getResource();
-        //logError("Hello world");
+        try {
+            //getResource();
+            //logError("Hello world");
+            File file = new File("D:\\FPT\\4th_term\\PRJ301\\JSP.pdf");
+            writeFile(file);
+        } catch (IOException ex) {
+            Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
