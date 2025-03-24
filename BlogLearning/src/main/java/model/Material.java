@@ -3,6 +3,7 @@ package model;
 import java.sql.Date;
 
 public class Material {
+
     private String location;
     private int materialId;
     private String materialName;
@@ -69,6 +70,17 @@ public class Material {
     public void setModuleId(int moduleId) {
         this.moduleId = moduleId;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Material{"
+                + "location=" + location
+                + ", materialId=" + materialId
+                + ", materialName=" + materialName + '\''
+                + ", materialType=" + materialType
+                + ", lastUpdate=" + lastUpdate
+                + ", moduleId=" + moduleId
+                + '}';
+    }
+
 }
