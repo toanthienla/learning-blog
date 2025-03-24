@@ -10,7 +10,23 @@
         <title>Material List</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
-            /* CSS để giống giao diện của moduleList.jsp */
+            .navbar-nav {
+                margin: auto;
+                padding-top: 1rem;
+                font-size: 18px;
+                overflow-x: auto; /* Enable horizontal scrolling */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+                scrollbar-width: none; /* Hide scrollbar in Firefox */
+            }
+            .navbar-nav::-webkit-scrollbar {
+                display: none; /* Hide scrollbar in Chrome/Safari */
+            }
+            .nav-link {
+                color: #bdc3c7;
+            }
+            .nav-link:hover {
+                color: #7f8c8d;
+            }
             .card {
                 transition: transform 0.2s, box-shadow 0.2s;
                 cursor: pointer; /* Add cursor pointer to indicate clickable */
@@ -18,34 +34,6 @@
             .card:hover {
                 transform: translateY(-5px); /* Slightly lift the card on hover */
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-            }
-            .card-title {
-                color: #343a40;
-                font-size: 1.25rem;
-                margin-bottom: 1rem;
-            }
-            .card-text {
-                color: #6c757d;
-                font-size: 0.95rem;
-            }
-            .btn-container {
-                display: flex;
-                gap: 8px;
-            }
-            .btn-primary, .btn-danger, .btn-success, .btn-secondary {
-                padding: 6px 12px;
-                font-size: 14px;
-            }
-            .btn-success, .btn-secondary {
-                margin-bottom: 20px;
-            }
-            .alert {
-                margin-bottom: 20px;
-            }
-            .button-group {
-                display: flex;
-                gap: 10px;
-                align-items: center;
             }
         </style>
     </head>
@@ -72,8 +60,8 @@
                 <c:remove var="successMessage" scope="session" />
             </c:if>
 
-            <div class="button-group">
-                <form action="addMaterial" method="GET">
+            <div class="button-group d-flex gap-2 mb-3">
+                <form action="addMaterial" method="GET" style="display:inline;">
                     <input type="hidden" name="moduleId" value="${requestScope.moduleId}">
                     <button type="submit" class="btn btn-success">Add New Material</button>
                 </form>
